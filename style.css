@@ -1,0 +1,16 @@
+body {font-family: Arial, Helvetica, sans-serif; padding-top: 25px;}
+h1 {color: blueviolet; max-width: 500px; margin: auto; padding-bottom: 25px; text-align: center;}
+h3 {color: #000;}
+p {color: #000; }
+button {color: #000; font-weight: bold; max-width: 300px; padding: 10px; text-align: center; border: solid 0px; border-radius: 5px;} 
+.gotocart {padding: 10px; border-radius: 5px; background-color: blueviolet; color: #FFF; font-weight: bold; text-decoration: none; margin-top: 25px; text-align: center; max-width: 250px; }
+.gotocart a {text-decoration: none; color: #FFF; text-align: center;}
+.backtoproducts {padding: 10px; border-radius: 5px; background-color: #C7C7C7; color: #FFF; font-weight: bold; text-decoration: none; margin-top: 25px; text-align: center; max-width: 250px; }
+.backtoproducts a {text-decoration: none; color: #000; text-align: center;}
+td {border: solid 0px; border-color: #C7C7C7; text-align: left;}
+div {max-width: 500px; margin: auto; text-align: center;}
+.productoAgregar:hover {background-color: #C7C7C7;}
+.productoQuitar:hover {background-color: #C7C7C7;}
+table {margin: 0; padding: 0;}
+#shoppingcart {background-color: #C7C7C7; padding: 15px; border-radius: 100px; margin-bottom: 10px;}
+.namebold {font-weight: bold;}
