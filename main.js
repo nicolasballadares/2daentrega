@@ -1,58 +1,77 @@
 //-----------------------Listado de productos-----------------------
 
-const productos= [
+const guitarras = [
     {
         id: 1, 
         nombre: "Gibson Les Paul", 
-        precio: 175000
+        precio: 175000,
+        cantidad: 0,
+        subtotal: 0,
     },
     {
         id: 2, 
         nombre: "Gibson SG", 
-        precio: 150000
+        precio: 150000,
+        cantidad: 0,
+        subtotal: 0,
     },
     {
         id: 3, 
         nombre: "Fender Stratocaster", 
-        precio: 180000
+        precio: 180000,
+        cantidad: 0,
+        subtotal: 0,
     },
     {
         id: 4, 
         nombre: "Fender Telecaster", 
-        precio: 165000
+        precio: 165000,
+        cantidad: 0,
+        subtotal: 0,
     },
     {
         id: 5, 
         nombre: "Fender Mustang", 
-        precio: 190000
+        precio: 190000,
+        cantidad: 0,
+        subtotal: 0,
     },
 ]
+
 //-----------------------Guardar carrito en el Local Storage-----------------------
 
 //Agregar selección de productos al Local Storage para que se guarde en el carrito
 let cartProducts // Define variable para el carrito
 let cartProductsLS = localStorage.getItem("cartProducts") //Define variable a almacenar en el Local Storage
-// Recorre el JS para alma 
 if(cartProductsLS){
     cartProducts = JSON.parse(cartProductsLS)
 } else {
     cartProducts = []
 }
 
-//-----------------------Renderizar de productos en el HTML-----------------------
+//-----------------------Constructor de tarjetas-----------------------
 
-let productsContainer = document.getElementById("products-container") //Le apunta al ID en el HTML donde vamos a colocar nuestros productos
+let inventario = document.getElementById("lista")
 
-function renderProducto(productsArray) {
-    productsArray.forEach (producto => {
-        const card = document.createElement("div") // Crea un DIV para el producto
-        card.innerHTML = `<table cellpadding="0" cellspacing="2" width="100%"><tr><td class="namebold" width="60%">${producto.nombre}</td><td width="20%">${'$'+producto.precio}</td><td class="addtocart" width="10%"><button class="productoAgregar" id="${producto.id}"><img id="addtocart" style="vertical-align: middle;" src="./img/addtocart.png" width="20px" height="auto"></button></td><td width="10%"><button class="productoQuitar" id="${producto.id}"><img id="trashbin" style="vertical-align: middle;" src="./img/trashbin.png" width="20px" height="auto"></button></td></tr></table>`
-                          productsContainer.appendChild(card) //Adjunta el producto renderizado en la ubicación indicada en el HTML
+function renderTarjeta(guitarras) {
+    guitarras.forEach ((guitarra) => {
+        let tarjeta = document.createElement("div")
+        tarjeta.className = "producto"
+        tarjeta.innerHTML = `<table cellpadding="0" cellspacing="2" width="100%">
+                                <tr>
+                                    <td class="namebold" width="50%">${guitarra.nombre}</td>
+                                    <td width="20%">${'$'+guitarra.precio}</td>
+                                    <td width="10%"><button class="productoAgregar" id="${guitarra.id}"><img style="vertical-align: middle;" src="./img/addtocart.png" width="20px" height="auto"></button></td>
+                                    <td class="counter" id="counter" width="10%">${guitarra.cantidad}</td>
+                                    <td width="10%"><button class="productoQuitar" id="${guitarra.id}"><img style="vertical-align: middle;" src="./img/trashbin.png" width="20px" height="auto"></button></td>
+                                </tr>
+                            </table>`
+        inventario.appendChild(tarjeta)
     })
     addToCartButton () // Declara la función para agregar este producto al carrito
-    removeFromCartButton () // Declara la función para quitar este producto del carrito
+    removeFromCartButton () // Declara la función para quitar este producto del carrito  
 }
-renderProducto(productos) // Renderiza el listado de productos en la página HTML
+renderTarjeta(guitarras)
 
 //-----------------------Agregar productos al carrito-----------------------
 
@@ -61,9 +80,8 @@ function addToCartButton () {
     addbutton.forEach (button => {
         button.onclick = (e) => {
             const productId = e.currentTarget.id
-            const selectedProduct = productos.find (producto => producto.id == productId)
-            cartProducts.push(selectedProduct)
-            // console.log(cartProducts)
+            const selectedGuitar = guitarras.find (guitarra => guitarra.id == productId)
+            cartProducts.push(selectedGuitar)
 
             localStorage.setItem("cartProducts", JSON.stringify(cartProducts))
         }
@@ -77,11 +95,36 @@ function removeFromCartButton () {
     removebutton.forEach (button => {
         button.onclick = (e) => {
             const productId = e.currentTarget.id
-            const selectedProduct = productos.find (producto => producto.id == productId)
-            cartProducts.pop(selectedProduct)
-            // console.log(cartProducts)
+            const selectedGuitar = guitarras.find (guitarra => guitarra.id == productId)
+            cartProducts.pop(selectedGuitar)
 
-            localStorage.setItem("cartProducts", JSON.stringify(cartProducts))
+            localStorage.removeItem("cartProducts", JSON.stringify(cartProducts))
         }
     })
+} 
+
+//-----------------------Agregar al carrito----------------------- 
+
+function agregarCarrito(guitarraAgregar) {
+    const yaExiste = cart.some((guitarra) => guitarra.id === guitarraAgregar.id)
+    if (yaExiste) {
+        const guitarras = cart.map((guitarra) => {
+            if (guitarra.id === guitarraAgregar.id) {
+                guitarra.cantidad++;
+                guitarra.subtotal = guitarra.precio * guitarraCantidad;
+                return guitarra;
+            }
+            else {
+                return guitarra;
+            }
+        })
+    }
 }
+
+console.log(agregarCarrito)
+
+
+
+
+
+

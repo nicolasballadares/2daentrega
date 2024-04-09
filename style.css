@@ -14,3 +14,4 @@ div {max-width: 500px; margin: auto; text-align: center;}
 table {margin: 0; padding: 0;}
 #shoppingcart {background-color: #C7C7C7; padding: 15px; border-radius: 100px; margin-bottom: 10px;}
 .namebold {font-weight: bold;}
+.counter {text-align: center; font-weight: bold;}
