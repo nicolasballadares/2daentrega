@@ -6,7 +6,7 @@ const guitarras = [
         nombre: "Gibson Les Paul", 
         precio: 175000,
         cantidad: 0,
-        subtotal: 0,
+        subtotal: 5000,
     },
     {
         id: 2, 
@@ -40,9 +40,8 @@ const guitarras = [
 
 //-----------------------Guardar carrito en el Local Storage-----------------------
 
-//Agregar selección de productos al Local Storage para que se guarde en el carrito
-let cartProducts // Define variable para el carrito
-let cartProductsLS = localStorage.getItem("cartProducts") //Define variable a almacenar en el Local Storage
+let cartProducts 
+let cartProductsLS = localStorage.getItem("cartProducts") 
 if(cartProductsLS){
     cartProducts = JSON.parse(cartProductsLS)
 } else {
@@ -68,8 +67,9 @@ function renderTarjeta(guitarras) {
                             </table>`
         inventario.appendChild(tarjeta)
     })
-    addToCartButton () // Declara la función para agregar este producto al carrito
-    removeFromCartButton () // Declara la función para quitar este producto del carrito  
+    addToCartButton ()
+    removeFromCartButton ()
+    totalCompra ()
 }
 renderTarjeta(guitarras)
 
@@ -77,13 +77,21 @@ renderTarjeta(guitarras)
 
 function addToCartButton () {
     let addbutton = document.querySelectorAll(".productoAgregar")
+    console.log("Addtocart", addbutton)
     addbutton.forEach (button => {
         button.onclick = (e) => {
             const productId = e.currentTarget.id
+            let indexOfGuitarra = guitarras.findIndex(viola => viola.id == productId);
             const selectedGuitar = guitarras.find (guitarra => guitarra.id == productId)
-            cartProducts.push(selectedGuitar)
 
-            localStorage.setItem("cartProducts", JSON.stringify(cartProducts))
+            let indexOfCarrito = cartProducts.findIndex(productoExistente => productoExistente.id == productId);
+            if (indexOfCarrito >= 0) {
+                cartProducts[indexOfCarrito].cantidad++
+            }
+            else {
+                cartProducts.push(selectedGuitar)
+            }
+            localStorage.setItem("cartProducts", JSON.stringify(cartProducts))    
         }
     })
 }
@@ -92,39 +100,33 @@ function addToCartButton () {
 
 function removeFromCartButton () {
     let removebutton = document.querySelectorAll(".productoQuitar")
+    console.log("Removetocart", removebutton)
     removebutton.forEach (button => {
         button.onclick = (e) => {
             const productId = e.currentTarget.id
+            let indexOfGuitarra = guitarras.findIndex(viola => viola.id == productId);
             const selectedGuitar = guitarras.find (guitarra => guitarra.id == productId)
-            cartProducts.pop(selectedGuitar)
+            if (guitarras[indexOfGuitarra].cantidad > 0) {
+            }
+            let indexOfCarrito = cartProducts.findIndex(productoExistente => productoExistente.id == productId);
+            if (indexOfCarrito >= 0 && cartProducts[indexOfCarrito].cantidad > 0) {
+                cartProducts[indexOfCarrito].cantidad--
+            }
+            if (indexOfCarrito >= 0 && cartProducts[indexOfCarrito].cantidad == 0) {
+                cartProducts.splice(indexOfCarrito, 1);
+            }
 
-            localStorage.removeItem("cartProducts", JSON.stringify(cartProducts))
+            localStorage.setItem("cartProducts", JSON.stringify(cartProducts))    
         }
     })
 } 
 
-//-----------------------Agregar al carrito----------------------- 
+//-----------------------Calcular total compra----------------------- 
 
-function agregarCarrito(guitarraAgregar) {
-    const yaExiste = cart.some((guitarra) => guitarra.id === guitarraAgregar.id)
-    if (yaExiste) {
-        const guitarras = cart.map((guitarra) => {
-            if (guitarra.id === guitarraAgregar.id) {
-                guitarra.cantidad++;
-                guitarra.subtotal = guitarra.precio * guitarraCantidad;
-                return guitarra;
-            }
-            else {
-                return guitarra;
-            }
-        })
-    }
+function totalCompra() {
+    cartProductsLS.forEach((productST, index) => {
+        productST.subtotal = productST.precio * productST.cantidad
+        cartProductsLS[index].subtotal = productST.subtotal 
+    })
+    console.log(cartProductsLS)
 }
-
-console.log(agregarCarrito)
-
-
-
-
-
-
